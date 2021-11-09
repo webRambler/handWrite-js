@@ -15,15 +15,16 @@ function parseParam(url) {
   return obj
 }
 
-console.log(parseParam('https://www.google.com/search?q=github&newwindow=1&a=36'));
+console.log(parseParam('https://www.google.com/search?q=github&newwindow=1&a=36&b='));
 
 
 // 法二：正则解决
 function parseParam(url) {
-  const reg = /^.+\?(.+)$/
+  const reg = /^.+\?(.*)$/
   let queryStr = reg.exec(url)[1]
   queryStr = queryStr.replace(/&/g, ',')
-  queryStr = queryStr.replace(/(\w+)(=)(\w+)/g, function (){
+  // 要考虑&b=空的情形，所以最后那个(\w*)要使用*而不是+
+  queryStr = queryStr.replace(/(\w+)(=)(\w*)/g, function (){
     if (/^\d+$/.test(arguments[3])) return `"${arguments[1]}":${arguments[3]}`
     return `"${arguments[1]}":"${arguments[3]}"`
   })
