@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>sleep</title>
+</head>
+<body>
+
+<script>
+  const obj = {
+    1: fn,
+    2: fn2
+  }
+  function sleep(time) {
+    const p = new Promise((resolve => {
+      setTimeout(_ => {
+        console.log(3333)
+        resolve(333)
+      }, time * 1000)
+    }))
+    return p
+  }
+
+  function fn() {
+    console.log(1111)
+  }
+  function fn2() {
+    console.log(2222)
+  }
+
+  let time = 0
+  for (const objKey in obj) {
+    console.log(objKey, 666)
+    time += objKey * 1
+    sleep(time).then(obj[objKey])
+  }
+</script>
+</body>
+</html>
