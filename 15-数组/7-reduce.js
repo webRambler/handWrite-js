@@ -1,4 +1,10 @@
 Array.prototype.myReduce = function (cb, initialization) {
+  if (typeof cb !== 'function') {
+    throw new Error('参数必须是函数')
+  }
+  if (initialization && (Object.prototype.toString.call(initialization) === 'Symbol' || Object.prototype.toString.call(initialization) === 'Function')) {
+    throw new Error('第二个参数必须是object，array，string，number,boolean其中一种类型')
+  }
   const arr = this
   let prev = initialization
   if (!initialization) {
@@ -6,7 +12,7 @@ Array.prototype.myReduce = function (cb, initialization) {
   }
   const start = initialization ? 0 : 1
   for (let i = start; i < arr.length; i++) {
-    prev = cb(prev, arr[i], i, arr)
+    prev = cb.call(prev, arr[i], i, arr)
   }
   return prev
 }
