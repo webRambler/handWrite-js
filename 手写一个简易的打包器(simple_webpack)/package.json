@@ -1,0 +1,6 @@
+{
+  "name": "手写一个简易的打包器(simple_webpack)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT"
+}
