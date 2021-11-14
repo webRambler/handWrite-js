@@ -1,8 +1,9 @@
 Function.prototype.myCall = function (obj, ...args) {
   const s = Symbol(1)
   obj[s] = this
-  obj[s](...args)
+  const res = obj[s](...args)
   delete obj[s]
+  return res
 }
 
 const obj = {name: 'Tom'}
