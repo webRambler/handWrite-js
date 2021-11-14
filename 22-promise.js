@@ -1,26 +1,31 @@
 class MyPromise {
   constructor(excutor) {
+    const self = this
     this.status = 'pending'
     this.value = void 0
     this.errMsg = void 0
     this.resolvedCbs = []
     this.rejectedCbs = []
-    excutor(resolve, reject)
+    try {
+      excutor(resolve, reject)
+    } catch (err) {
+      console.log(err)
+    }
     function resolve(val) {
-      if (this.status === 'pending') {
-        this.status = 'resolved'
-        this.value = val
-        this.resolvedCbs.forEach(fn => {
-          this.value = fn(this.value)
+      if (self.status === 'pending') {
+        self.status = 'resolved'
+        self.value = val
+        self.resolvedCbs.forEach(fn => {
+          self.value = fn(self.value)
         })
       }
     }
     function reject(err) {
-      if (this.status === 'pending') {
-        this.status = 'rejected'
-        this.errMsg = err
-        this.rejectedCbs.forEach(fn => {
-          this.errMsg = fn(this.errMsg)
+      if (self.status === 'pending') {
+        self.status = 'rejected'
+        self.errMsg = err
+        self.rejectedCbs.forEach(fn => {
+          self.errMsg = fn(self.errMsg)
         })
       }
     }
@@ -41,6 +46,7 @@ class MyPromise {
     if (this.status === 'rejected') {
       this.errMsg = fn2(this.errMsg)
     }
+    return this
   }
 
   /**
@@ -51,6 +57,7 @@ class MyPromise {
     if (this.status === 'rejected') {
       this.errMsg = fn(this.errMsg)
     }
+    return this
   }
 
   /**
@@ -110,3 +117,21 @@ class MyPromise {
   }
 
 }
+
+const p = new MyPromise(resolve => {
+  console.log(333)
+  setTimeout(_ => {
+    console.log(555)
+    resolve(6)
+  }, 2000)
+
+})
+
+p.then(val => {
+  console.log(val)
+  return 777
+}).then(v => {
+  console.log(v)
+}).then(v1 => {
+  console.log(v1, 'v1')
+})
