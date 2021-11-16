@@ -1,2 +1,2 @@
 # handWrite-js
-手写js
+Simulating the functions of the native javascript using the original grammar.
