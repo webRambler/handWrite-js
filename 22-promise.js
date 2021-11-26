@@ -38,7 +38,8 @@ class MyPromise {
    */
   then(fn1, fn2) {
     if (this.status === 'pending') {
-      this.resolvedCbs.push((val) => fn1(val))
+      this.resolvedCbs.push(val => fn1(val))
+      this.rejectedCbs.push(val => fn2(val))
     }
     if (this.status === 'resolved') {
       this.value = fn1(this.value)
