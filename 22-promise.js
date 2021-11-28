@@ -134,5 +134,33 @@ p.then(val => {
 }).then(v => {
   console.log(v)
 }).then(v1 => {
+  setTimeout(_ => {
+    return 999
+  })
   console.log(v1, 'v1')
+}).then(r => {
+  console.log(r, 'rrrr')
+})
+
+const p2 = new Promise(resolve => {
+  console.log(333)
+  setTimeout(_ => {
+    console.log(555)
+    resolve(6)
+  }, 2000)
+
+})
+
+p2.then(val => {
+  console.log(val, 'ppp')
+  return 777
+}).then(v => {
+  console.log(v, 'pppp')
+}).then(v1 => {
+  setTimeout(_ => {
+    return 999
+  })
+  console.log(v1, 'v1ppp')
+}).then(r => {
+  console.log(r, 'rrrrpp')
 })

@@ -36,3 +36,4 @@ function flatten(arr) {
 }
 
 console.log(flatten(nums));
+console.log(JSON, 777)

@@ -58,8 +58,12 @@ function CreateInheritObj(obj) {
 }
 
 // 6. 寄生组合式继承（最终大BOSS）
+function subClass(age) {
+  superClass.apply(this, arguments)
+  this.age = age
+}
 function InheritPrototype(subClass, superClass) {
-  const p = Object.create(superClass)
+  const p = Object.create(superClass.prototype)
   p.constructor = subClass
   subClass.prototype = p
 }
