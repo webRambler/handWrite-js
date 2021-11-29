@@ -2,8 +2,10 @@
 function curry(fn) {
   const arg1 = [...arguments].slice(1)
   return function curried() {
-    const args = [...arg1, ...arguments]
-    if (fn.length <= args.length) return fn.apply(null, [...arg1, ...arguments])
+    if (fn.length - arguments.length <= arg1.length) {
+      const args = [...arg1, ...arguments]
+      return fn.apply(null, args)
+    }
     else {
       return (...arg) => curried(...arguments, ...arg)
     }
@@ -33,8 +35,8 @@ console.log(curryAdd(3)(6));
 function Curry(fn) {
   const arg1 = [...arguments].slice(1)
   return function fn2() {
-    const args = [...arg1, ...arguments]
-    if (fn.length <= args.length) {
+    if (fn.length - arguments.length <= arg1.length) {
+      const args = [...arg1, ...arguments]
       return () => fn(...args)
     } else {
       return (...arg) => fn2(...arguments, ...arg)
@@ -47,3 +49,4 @@ const add2 = Curry(add)
 console.log(add2(1));
 console.log(add2(1)(2,3)());
 console.log(add2(1,2,3)());
+console.log(add2(1)(2)(3)());

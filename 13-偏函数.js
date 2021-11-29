@@ -10,4 +10,4 @@ function add(a, b, c) {
   return a + b + c
 }
 let partialAdd = partial(add, 1)
-partialAdd(2, 3)
+console.log(partialAdd(2, 3));
