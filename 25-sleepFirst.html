@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  class LazyMan {
+    constructor(str) {
+      this.hasFirst = false
+      this.queueCbs = []
+      const fnc = () => {
+        console.log('Hi This ' + str)
+      }
+      this.pushInCbs(fnc)
+    }
+    pushInCbs(fn) {
+      this.queueCbs.push(fn)
+      setTimeout(_ => {
+        if(!this.hasFirst) {
+          fn()
+        }
+      })
+    }
+    eat(str) {
+      this.pushInCbs( () => console.log('Eat ' + str))
+      return this
+    }
+    sleep(time) {
+      this.pushInCbs(() => {
+        const t1 = Date.now()
+        while(Date.now() - t1 <= time * 1000) {
+
+        }
+      })
+      return this
+    }
+    sleepFirst(time) {
+      this.hasFirst = true
+      setTimeout(_ => {
+        while(this.queueCbs.length) {
+          this.queueCbs.shift()()
+        }
+        this.hasFirst = false
+      },time * 1000)
+      return this
+    }
+  }
+
+  const demo = new LazyMan('shopee')
+
+  // demo.eat('dinner').eat('dinner')
+
+  // demo.sleep(3).eat('dinner')
+
+  // demo.sleepFirst(5).eat('dinner').sleep(3).eat('哈哈')
+
+  demo.sleepFirst(5).eat('dinner').sleep(3).eat('哈哈').sleepFirst(2).eat('222')
+
+</script>
+</body>
+</html>

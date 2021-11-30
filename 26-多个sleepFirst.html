@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  class LazyMan {
+    constructor(str) {
+      this.hasFirst = false
+      this.accFirstTime = 0
+      this.queueCbs = []
+      this.firstIndex = -1
+      const fnc = () => {
+        console.log('Hi This ' + str)
+      }
+      this.pushInCbs(fnc, 0)
+    }
+    pushInCbs(fn) {
+      const index = this.firstIndex > -1 ? this.firstIndex : 0
+      if (!this.queueCbs[index]) this.queueCbs[index] = []
+      this.queueCbs[index].push(fn)
+      setTimeout(_ => {
+        if(!this.hasFirst) {
+          fn()
+        }
+      })
+    }
+    eat(str) {
+      this.pushInCbs(() => console.log('Eat ' + str))
+      return this
+    }
+    sleep(time) {
+      this.pushInCbs(() => {
+        const t1 = Date.now()
+        while(Date.now() - t1 <= time * 1000) {
+
+        }
+      })
+      return this
+    }
+    sleepFirst(time) {
+      const i = ++this.firstIndex
+      this.hasFirst = true
+      this.accFirstTime += time
+      setTimeout(_ => {
+        while(this.queueCbs[i].length) {
+          this.queueCbs[i].shift()()
+        }
+        this.hasFirst = false
+      }, this.accFirstTime * 1000)
+      return this
+    }
+  }
+
+  const demo = new LazyMan('shopee')
+
+  // demo.eat('dinner').eat('dinner')
+
+  // demo.sleep(3).eat('dinner')
+
+  // demo.sleepFirst(5).eat('dinner').sleep(3).eat('哈哈')
+
+  // demo.sleepFirst(5).eat('dinner').sleep(3).eat('哈哈').sleepFirst(5).eat('222')
+
+</script>
+</body>
+</html>
